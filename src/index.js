@@ -5,6 +5,8 @@ import { connectDB } from './db/connectDB.js';
 
 // import routes
 import healthCheckRoute from './routes/healthCheck.route.js';
+import authRoute from './routes/auth.route.js';
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -21,6 +23,7 @@ app.use(express.static('public'));
 
 // routes
 app.use('/api/v1', healthCheckRoute);
+app.use('/api/v1/auth', authRoute);
 
 
 

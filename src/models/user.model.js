@@ -31,10 +31,10 @@ const userSchema = new mongoose.Schema({
         trim: true
     },
     fullName: {
-        type: String,
+        type: String, 
         required: true,
         trim: true
-    },
+    },  
     password: {
         type: String,
         required: [true, "Password is required"],
@@ -67,7 +67,7 @@ const userSchema = new mongoose.Schema({
 );
 
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) { 
     if (!this.isModified("password")) {
         return next();
     }   

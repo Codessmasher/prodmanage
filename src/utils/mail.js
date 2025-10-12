@@ -26,14 +26,14 @@ const transporter = nodemailer.createTransport({
 });
 
 // 3. Send email function
-export const sendEmail = async (to, subject, mailContent) => {
+export const sendEmail = async ({email, subject, mailContent}) => {
     // Generate the HTML email with Mailgen
     const emailBody = mailGenerator.generate(mailContent);
     const emailText = mailGenerator.generatePlaintext(mailContent);
 
     const mailOptions = {
         from: process.env.MAIL_USERNAME,
-        to,
+        to:email,
         subject,
         html: emailBody,
         text: emailText
