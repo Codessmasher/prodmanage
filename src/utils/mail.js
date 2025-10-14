@@ -6,7 +6,7 @@ dotenv.config();
 
 // 1. Setup Mailgen
 const mailGenerator = new Mailgen({
-    theme: "default",
+    theme: "default", 
     product: {
         name: "ProdManage",
         link: process.env.HOST_URL,
@@ -73,8 +73,4 @@ export const passwordResetMailContent = (username, verificationUrl) => ({
         },
         outro: "If you did not request a password reset, please ignore this email or reply to let us know. This link is only valid for the next 2 hours."
     }
-});
-
-// 5. Example usage
-// const content = emailVerificationMailContent("John", "https://prodmanage.com/verify?token=12345");
-// await sendEmail("john@example.com", "Verify your ProdManage account", content);
+}); 

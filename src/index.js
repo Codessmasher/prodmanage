@@ -31,7 +31,7 @@ app.use('/api/v1/auth', authRoute);
 connectDB().then(() => {  
   // Start the server
   app.listen(PORT, () => {
-    console.log(`✅ Server is running on http://localhost:${PORT}`);
+    console.log(`✅ Server is running on ${process.env.HOST_URL}`);
   });
 }).catch((err) => {
   console.error('❌ Failed to connect to MongoDB', err);

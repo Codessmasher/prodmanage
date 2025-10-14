@@ -5,12 +5,10 @@ export const validate = (req, res, next) => {
   const errors = validationResult(req);
   if (errors.isEmpty()) {
     return next();
-  }
-  const extractedErrors = [];
-  errors.array().map((err) =>
-    extractedErrors.push({
-      [err.path]: err.msg,
-    }),
-  );
-  throw new ApiError(422, "Recieved data is not valid", extractedErrors);
+  }  
+   // Extract only the messages
+  const messages = errors.array().map((err) => err.msg);
+  // Send all messages as an array
+  throw new ApiError(422, messages.join(", "), errors.array());
+  
 };
