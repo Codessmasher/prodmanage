@@ -4,7 +4,7 @@ import { ApiError } from "../utils/api-error.js";
 import { asyncHandler } from "../utils/async-handler.js";
 import { emailVerificationMailContent, sendEmail, passwordResetMailContent } from "../utils/mail.js";
 import crypto from "crypto";
-
+import jwt from "jsonwebtoken";
 
 // Function to generate access and refresh tokens
 const generateAccessAndRefreshTokens = async (userId) => {
@@ -221,8 +221,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
 // Refresh Access Token
 const refreshAccessToken = asyncHandler(async (req, res) => {
-  const incomingRefreshToken =
-    req.cookies.refreshToken || req.body.refreshToken;
+  const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
 
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized access");
@@ -266,7 +265,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         ),
       );
   } catch (error) {
-    throw new ApiError(401, "Invalid refresh token");
+    throw new ApiError(401, "Invalid refresh token: "+error.message);
   }
 });
 
@@ -359,6 +358,21 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Password changed successfully"));
 });
 
+// Resend Verification Link
+const resendVerificationLink = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  if (!user) {
+    throw new ApiError(404, "User not found");
+  }
+  if (user.isEmailVerified) {
+    throw new ApiError(400, "Email is already verified");
+  }
+  await sendVerificationLink(user, req);
+  return res.status(200).json(
+    new ApiResponse(200, {}, "Verification email resent successfully")
+  );
+});
+
 
 export {
   registerUser,
@@ -370,5 +384,6 @@ export {
   refreshAccessToken,
   forgotPasswordRequest,
   resetForgotPassword,
-  changeCurrentPassword
+  changeCurrentPassword,
+  resendVerificationLink
 };

@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
     registerUser,
     loginUser,
-    sendVerificationLink,
+    resendVerificationLink,
     logoutUser,
     getCurrentUser,
     verifyEmail,
@@ -48,7 +48,7 @@ router.post("/logout", verifyJWT, logoutUser);
 // Get Current User Route
 router.get("/current-user", verifyJWT, getCurrentUser);
 // Resend Email Verification Link Route
-router.post("/send-verification-link", verifyJWT, sendVerificationLink);
+router.post("/send-verification-link", verifyJWT, resendVerificationLink);
 // Change Current Password Route
 router.post("/change-password", verifyJWT, userChangeCurrentPasswordValidator(), validate, changeCurrentPassword);
 
